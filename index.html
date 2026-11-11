@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>body{margin:0}</style>
+<title>용린이 룰렛 확률표</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 한 칸짜리 세로 스크롤. 룰렛마다 카드 하나, 항목은 확률 막대로 표시. 방송인은 같은 카드에서 바로 편집 */
+:root{
+  --bg:#f3f5f4; --surface:#ffffff; --line:#dde3e0; --fg:#14201c; --mute:#5d6b65;
+  --accent:#0e9f8e; --accent-fg:#ffffff; --rare:#b7791f; --miss:#9aa6a0; --warn:#b45309;
+  --display:"Do Hyeon","Noto Sans KR",sans-serif; --body:"Noto Sans KR",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1412; --surface:#151e1b; --line:#26332e; --fg:#e8f0ec; --mute:#92a39b;
+  --accent:#2cd4bf; --accent-fg:#06201b; --rare:#f2c14e; --miss:#5f6e67; --warn:#f2c14e; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1412; --surface:#151e1b; --line:#26332e; --fg:#e8f0ec; --mute:#92a39b;
+  --accent:#2cd4bf; --accent-fg:#06201b; --rare:#f2c14e; --miss:#5f6e67; --warn:#f2c14e; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;
+  padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,7vw,42px);line-height:1.15;margin:0;text-wrap:balance}
+.sub{color:var(--mute);margin:6px 0 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.card h2{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
+.price{margin-top:10px;font-size:15px;color:var(--mute)}.price b{font-family:var(--display);font-weight:400;font-size:30px;color:var(--fg);font-variant-numeric:tabular-nums}.price span{font-size:13px}
+.rows{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:minmax(64px,92px) 1fr 62px;align-items:center;gap:10px}
+.row .nm{font-weight:500;overflow-wrap:anywhere}
+.row .pc{text-align:right;font-variant-numeric:tabular-nums;font-weight:700}
+.bar{height:12px;border-radius:6px;background:var(--bg);overflow:hidden}
+.bar i{display:block;height:100%;border-radius:6px;background:var(--accent);min-width:2px}
+.row.miss .bar i{background:var(--miss)}
+.row.rare .bar i{background:var(--rare)}
+.row.rare .pc{color:var(--rare)}
+.note{font-size:12.5px;color:var(--mute);margin:0}
+.foot{font-size:12.5px;color:var(--mute);display:flex;flex-direction:column;gap:4px}
+</style>
+<div class="wrap">
+<header><h1>용린이 룰렛 확률표</h1></header>
+<main style="display:flex;flex-direction:column;gap:20px"><section class="card"><div><h2>시참권 룰렛</h2><div class="price"><b>3,900</b> 캐시 <span>/ 1회</span></div></div><div class="rows"><div class="row miss"><span class="nm">꽝</span><div class="bar"><i style="width:50.000%"></i></div><span class="pc">50%</span></div><div class="row "><span class="nm">1판</span><div class="bar"><i style="width:37.000%"></i></div><span class="pc">37%</span></div><div class="row "><span class="nm">2판</span><div class="bar"><i style="width:6.000%"></i></div><span class="pc">6%</span></div><div class="row rare"><span class="nm">3판</span><div class="bar"><i style="width:1.000%"></i></div><span class="pc">1%</span></div><div class="row "><span class="nm">2연패쫑</span><div class="bar"><i style="width:6.000%"></i></div><span class="pc">6%</span></div></div></section><section class="card"><div><h2>노방종 룰렛</h2><p class="sub" style="margin:4px 0 0">시간 추가 또는 감소를 말씀해 주시면 원하시는 걸로 반영해서 룰렛이 돌아갑니다.</p><div class="price"><b>500</b> 원 <span>/ 1회</span></div></div><div class="rows"><div class="row miss"><span class="nm">꽝</span><div class="bar"><i style="width:6.990%"></i></div><span class="pc">6.99%</span></div><div class="row "><span class="nm">+2분</span><div class="bar"><i style="width:30.000%"></i></div><span class="pc">30%</span></div><div class="row "><span class="nm">+3분</span><div class="bar"><i style="width:63.000%"></i></div><span class="pc">63%</span></div><div class="row rare"><span class="nm">+150분</span><div class="bar"><i style="width:0.010%"></i></div><span class="pc">0.01%</span></div></div></section></main>
+<footer class="foot"><span>최종 업데이트 2026-11-11 14:29</span></footer>
+</div>
+
+</html>
