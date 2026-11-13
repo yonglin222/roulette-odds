@@ -91,11 +91,11 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .tabs a[aria-selected="true"] .must{background:var(--surface);color:var(--warn)}
 .gorules{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid var(--warn);color:var(--warn);text-decoration:none;font-weight:700;background:var(--surface)}
 .pnl{display:flex;flex-direction:column;gap:20px}
-.wrap[data-tab="rules"] #p-odds{display:none}
-.wrap[data-tab="odds"] #p-rules{display:none}
+.wrap[data-view="rules"] #p-odds{display:none}
+.wrap[data-view="odds"] #p-rules{display:none}
 @media (prefers-reduced-motion:no-preference){.bar i{transition:width .3s ease}}
 </style></head><body>
-<div class="wrap" data-tab="odds">
+<div class="wrap" data-view="odds">
     <header class="top"><div><h1>용린이 룰렛 확률표</h1></div>
       </header>
     
@@ -124,9 +124,9 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 </script>
 <script>
 (function(){var w=document.querySelector('.wrap');
-function set(t,push){w.dataset.tab=t;[].forEach.call(document.querySelectorAll('.tabs [data-tab]'),function(a){a.setAttribute('aria-selected',String(a.dataset.tab===t))});if(push){try{history.replaceState(null,'','#'+t)}catch(e){}}}
+function set(t,push){w.dataset.view=t;[].forEach.call(document.querySelectorAll('.tabs [data-tab]'),function(a){a.setAttribute('aria-selected',String(a.dataset.tab===t))});if(push){try{history.replaceState(null,'','#'+t)}catch(e){}}}
 set(location.hash==='#rules'?'rules':'odds');
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('[data-tab]');if(a){e.preventDefault();set(a.dataset.tab,1);scrollTo(0,0)}});
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.tabs [data-tab], .gorules');if(a){e.preventDefault();set(a.dataset.tab,1);scrollTo(0,0)}});
 addEventListener('hashchange',function(){set(location.hash==='#rules'?'rules':'odds')});})();
 </script>
 </body></html>
