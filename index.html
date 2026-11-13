@@ -1,12 +1,9 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<style>body{margin:0}</style>
 <title>용린이 룰렛 확률표</title>
-<meta name="claude:viewport-fit-sides" content="cover">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Noto+Sans+KR:wght@400;500;700&display=swap">
-<style>
+<style>body{margin:0}
 /* Layout: 한 칸짜리 세로 스크롤. 룰렛마다 카드 하나, 항목은 확률 막대로 표시. 방송인은 같은 카드에서 바로 편집 */
 :root{
   --bg:#f3f5f4; --surface:#ffffff; --line:#dde3e0; --fg:#14201c; --mute:#5d6b65;
@@ -22,11 +19,21 @@
 body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:15px;line-height:1.55;
   padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
 .wrap{max-width:720px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+.top{display:flex;gap:12px;align-items:flex-start;justify-content:space-between}
 h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,7vw,42px);line-height:1.15;margin:0;text-wrap:balance}
 .sub{color:var(--mute);margin:6px 0 0}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px 18px;display:flex;flex-direction:column;gap:16px;min-width:0}
 .card h2{font-family:var(--display);font-weight:400;font-size:24px;margin:0}
 .price{margin-top:10px;font-size:15px;color:var(--mute)}.price b{font-family:var(--display);font-weight:400;font-size:30px;color:var(--fg);font-variant-numeric:tabular-nums}.price span{font-size:13px}
+button{font:inherit;cursor:pointer}
+.seg{display:flex;gap:6px}
+.seg button{font-weight:500;flex:1;min-width:0;padding:9px 0;border-radius:9px;border:1px solid var(--line);background:transparent;color:var(--fg)}
+.seg button[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px}
+.stat{background:var(--bg);border-radius:10px;padding:10px 12px;min-width:0}
+.stat b{display:block;font-size:19px;font-variant-numeric:tabular-nums;font-weight:700}
+.stat span{font-size:12px;color:var(--mute)}
 .rows{display:flex;flex-direction:column;gap:10px}
 .row{display:grid;grid-template-columns:minmax(64px,92px) 1fr 62px;align-items:center;gap:10px}
 .row .nm{font-weight:500;overflow-wrap:anywhere}
@@ -38,24 +45,70 @@ h1{font-family:var(--display);font-weight:400;font-size:clamp(30px,7vw,42px);lin
 .row.rare .pc{color:var(--rare)}
 .note{font-size:12.5px;color:var(--mute);margin:0}
 .foot{font-size:12.5px;color:var(--mute);display:flex;flex-direction:column;gap:4px}
+/* 편집 도구 (편집 권한이 있는 사람에게만 보임) */
+.tgl{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:9px;padding:8px 14px;font-weight:500;white-space:nowrap}
+.tgl[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.bar-st{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:13px;color:var(--mute);background:var(--surface);border:1px dashed var(--line);border-radius:10px;padding:10px 12px}
+.bar-st b{color:var(--fg)}
+.ed{display:flex;flex-direction:column;gap:10px;border:1px dashed var(--line);border-radius:10px;padding:12px}
+.ed label{font-size:12px;color:var(--mute);display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.ed input[type=text],.ed input[type=number]{font:inherit;width:100%;min-width:0;box-sizing:border-box;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+.ed .two{display:flex;gap:10px;flex-wrap:wrap}
+.ed .it{display:grid;grid-template-columns:28px minmax(60px,1.6fr) minmax(56px,1fr) minmax(48px,.8fr) 32px;gap:6px;align-items:center}
+.ed .it.h{font-size:11.5px;color:var(--mute)}
+.ed .it button{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:8px;padding:5px 0}
+.ed .add{align-self:flex-start;border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:8px;padding:6px 12px}
+.ed .info{font-size:12.5px;color:var(--mute)}
+.ed .info.warn{color:var(--warn)}
 .acct{display:flex;flex-direction:column;gap:6px}
 .acct .acl{font-size:12.5px;color:var(--mute);font-weight:500}
 .acct .acn{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
 .acct .acn b{font-family:var(--display);font-weight:400;font-size:22px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
 .acct .ach{font-size:13px;color:var(--mute)}
 .acct .gd{font-size:13px;color:var(--mute);margin:6px 0 0;padding-top:10px;border-top:1px solid var(--line);line-height:1.6}
-.acct button{font:inherit;font-weight:500;cursor:pointer;border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);border-radius:9px;padding:7px 16px}
-.acct button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-</style>
+.ed textarea{font:inherit;width:100%;min-height:84px;box-sizing:border-box;padding:7px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg);resize:vertical}
+.acct button{border:1px solid var(--accent);background:var(--accent);color:var(--accent-fg);font-weight:500;border-radius:9px;padding:7px 16px}
+.lnk{display:flex;flex-wrap:wrap;gap:8px}
+.lnk a{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;font-weight:500}
+.lnk a i{width:9px;height:9px;border-radius:50%;flex:none}
+.lnk a:hover{border-color:var(--accent)}
+.lnk a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.rn{display:inline-block;align-self:flex-start;border:1px solid var(--warn);color:var(--warn);border-radius:8px;padding:4px 12px;font-weight:700;font-size:14px}
+.ri,.ro{margin:0;color:var(--mute)}
+.rs{padding-top:14px;border-top:1px solid var(--line)}
+.rs h3{font-size:15px;margin:0 0 8px;font-weight:700;line-height:1.45}
+.rl{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.rl small{display:block;color:var(--mute);font-size:13px;margin-top:2px}
+.rp{margin:0 0 8px}
+.ri,.ro,.rp,.rl li,.rs h3,.card .sub,.acct .gd{word-break:keep-all;overflow-wrap:break-word}
+.ed .lk{display:grid;grid-template-columns:minmax(64px,.8fr) 2fr 32px;gap:6px;align-items:center}
+.ed .bsm{border:1px solid var(--line);background:transparent;color:var(--fg);border-radius:8px;padding:5px 10px}
+@media (prefers-reduced-motion:no-preference){.bar i{transition:width .3s ease}}
+</style></head><body>
 <div class="wrap">
-<header><h1>용린이 룰렛 확률표</h1></header>
-<main style="display:flex;flex-direction:column;gap:20px"><section class="card"><div><h2>시참권 룰렛</h2><p class="sub" style="margin:4px 0 0">원하시는 모드로 시참 가능합니다.</p><div class="price"><b>3,900</b> 원 <span>/ 1회</span></div></div><div class="rows"><div class="row miss"><span class="nm">꽝</span><div class="bar"><i style="width:50.000%"></i></div><span class="pc">50%</span></div><div class="row "><span class="nm">1판</span><div class="bar"><i style="width:37.000%"></i></div><span class="pc">37%</span></div><div class="row "><span class="nm">2판</span><div class="bar"><i style="width:6.000%"></i></div><span class="pc">6%</span></div><div class="row rare"><span class="nm">3판</span><div class="bar"><i style="width:1.000%"></i></div><span class="pc">1%</span></div><div class="row "><span class="nm">2연패쫑</span><div class="bar"><i style="width:6.000%"></i></div><span class="pc">6%</span></div></div></section><section class="card"><div><h2>노방종 룰렛</h2><p class="sub" style="margin:4px 0 0">시간 추가 또는 감소를 말씀해 주시면 원하시는 걸로 반영해서 룰렛이 돌아갑니다.</p><div class="price"><b>500</b> 원 <span>/ 1회</span></div></div><div class="rows"><div class="row miss"><span class="nm">꽝</span><div class="bar"><i style="width:6.990%"></i></div><span class="pc">6.99%</span></div><div class="row "><span class="nm">2분</span><div class="bar"><i style="width:30.000%"></i></div><span class="pc">30%</span></div><div class="row "><span class="nm">3분</span><div class="bar"><i style="width:63.000%"></i></div><span class="pc">63%</span></div><div class="row rare"><span class="nm">150분</span><div class="bar"><i style="width:0.010%"></i></div><span class="pc">0.01%</span></div></div></section><section class="card"><div class="acct"><span class="acl">계좌 후원</span><div class="acn"><b>신한 110506583920</b><button type="button" id="cp">복사</button></div><span class="ach">예금주 김용민</span><p class="gd">입금하신 뒤 방송 채팅에 원하시는 룰렛(시참권 / 시간추가 / 시간감소)을 적어 주시면 바로 돌려드려요.<br>후원은 자율이고, 룰렛 결과는 방송에서 바로 공개해드립니다.</p></div></section></main>
-</div>
+    <header class="top"><div><h1>용린이 룰렛 확률표</h1></div>
+      </header>
+    
+    
+    <nav class="lnk" id="lk" aria-label="바로가기"><a href="https://discord.gg/qP7RgRrHwA" target="_blank" rel="noopener noreferrer"><i style="background:#5865f2"></i>디스코드</a><a href="https://chzzk.naver.com/042244791150a7e8fec85f933679bbe3" target="_blank" rel="noopener noreferrer"><i style="background:#00c473"></i>치지직</a><a href="https://www.youtube.com/@yonglin_e" target="_blank" rel="noopener noreferrer"><i style="background:#ff0000"></i>유튜브</a></nav>
+    <main style="display:flex;flex-direction:column;gap:20px"><section class="card">
+      <div><h2>시참권 룰렛</h2><p class="sub" style="margin:4px 0 0">원하시는 모드로 시참 가능합니다.</p>
+        <div class="price"><b>3,900</b> 원 <span>/ 1회</span></div></div>
+      
+      <div class="pv" data-pv="0" style="display:contents"><div class="rows"><div class="row miss"><span class="nm">꽝</span><div class="bar"><i style="width:50%"></i></div><span class="pc">50%</span></div><div class="row "><span class="nm">1판</span><div class="bar"><i style="width:37%"></i></div><span class="pc">37%</span></div><div class="row "><span class="nm">2판</span><div class="bar"><i style="width:6%"></i></div><span class="pc">6%</span></div><div class="row rare"><span class="nm">3판</span><div class="bar"><i style="width:1%"></i></div><span class="pc">1%</span></div><div class="row "><span class="nm">2연패쫑</span><div class="bar"><i style="width:6%"></i></div><span class="pc">6%</span></div></div>
+    </div></section><section class="card">
+      <div><h2>노방종 룰렛</h2><p class="sub" style="margin:4px 0 0">시간 추가 또는 감소를 말씀해 주시면 원하시는 걸로 반영해서 룰렛이 돌아갑니다.</p>
+        <div class="price"><b>500</b> 원 <span>/ 1회</span></div></div>
+      
+      <div class="pv" data-pv="1" style="display:contents"><div class="rows"><div class="row miss"><span class="nm">꽝</span><div class="bar"><i style="width:6.989999999999999%"></i></div><span class="pc">6.99%</span></div><div class="row "><span class="nm">2분</span><div class="bar"><i style="width:29.999999999999993%"></i></div><span class="pc">30%</span></div><div class="row "><span class="nm">3분</span><div class="bar"><i style="width:62.999999999999986%"></i></div><span class="pc">63%</span></div><div class="row rare"><span class="nm">150분</span><div class="bar"><i style="width:0.009999999999999998%"></i></div><span class="pc">0.01%</span></div></div>
+    </div></section><section class="card"><div class="acct"><span class="acl">계좌 후원</span><div class="acn"><b id="acb">신한 110506583920</b><button type="button" id="cp">복사</button></div><span class="ach" id="ach">예금주 김용민</span><p class="gd" id="agd">입금하신 뒤 방송 채팅에 원하시는 룰렛(시참권 / 시간추가 / 시간감소)을 적어 주시면 바로 돌려드려요.<br>후원은 자율이고, 룰렛 결과는 방송에서 바로 공개해드립니다.</p></div>
+    </section><section class="card"><h2 id="rt">시참 규칙</h2><div id="rv" style="display:contents"><div class="rn">시참 전 반드시 읽어주세요!</div><p class="ri">함께 즐겁고 매너 있는 방송을 만들기 위한 시참 규칙입니다.<br>시참 신청 전 아래 내용을 반드시 필독해 주세요!</p><div class="rs"><h3>0. 시참 참여 안내</h3><ul class="rl"><li>'시참권 (3900치즈)' 사용을 통해서만 시참이 가능합니다.<small>(단, 지인/합방 및 특정 콘텐츠 진행 시에는 시참권 사용은 제한됩니다.)</small></li></ul></div><div class="rs"><h3>1. 필수 및 금지 규칙 (위반 시 경고 없이 제재)</h3><ul class="rl"><li>마이크 사용 필수 (음성 소통 불가 시 시참 불가)</li><li>과한 훈수, 지적, 불평불만, 억까, 정색 금지</li><li>팀원 및 적팀과의 분쟁 금지 (이상한 유저는 대응하지 마시고 차단해 주세요!)</li><li>과한 장난, 선 넘는 행동, 트롤링, 비매너 플레이 시 [즉시 영구 시참 불가]</li></ul></div><div class="rs"><h3>2. 방송 매너 및 홍보 제재 (필독!)</h3><ul class="rl"><li>닉네임 제재: '치지직', 'YouTube' 등 타 플랫폼 및 방송 관련 단어가 포함된 닉네임은 시참이 불가능 합니다.</li><li>방송 채팅창에서 합방 요청 하지 말아주세요<small>(합방을 원하시면 개인 디코로 연락주세요)</small></li></ul></div><div class="rs"><h3>3. 경쟁전 시참 규칙</h3><ul class="rl"><li>반드시 '본계정(가장 티어가 높은 본인 명의 계정)'으로만 시참 가능합니다. (부계정/남의계정 금지)</li><li>방장과 티어가 맞지 않는 분들은 경쟁전 시참은 불가능합니다. (티어를 맞추기 위한 부계정도 금지)</li></ul></div><div class="rs"><h3>4. 친목 방지 호칭 규칙</h3><p class="rp">시참 중 시청자 간 사적인 친목 방지를 위해 아래 호칭으로 불러주세요.</p><ul class="rl"><li>발로란트: 요원 이름 (예: 레이나님, 제트님)</li><li>방장은 자유롭게 부르셔도 됩니다!</li></ul></div><p class="ro">필독해 주셔서 감사합니다. 서로 존중하며 매너 있게 즐겜해요!</p></div>
+    </section></main>
+    </div>
 <script>
-document.getElementById('cp').addEventListener('click',function(){var b=this,n='110506583920';
+document.getElementById('cp').addEventListener('click',function(){var b=this,n="110506583920";
 function ok(){b.textContent='복사됨';setTimeout(function(){b.textContent='복사'},1500)}
-if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(n).then(ok,fb)}else fb();
-function fb(){var t=document.createElement('textarea');t.value=n;document.body.appendChild(t);t.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(t)}});
+function fb(){var t=document.createElement('textarea');t.value=n;document.body.appendChild(t);t.select();try{document.execCommand('copy');ok()}catch(e){}document.body.removeChild(t)}
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(n).then(ok,fb)}else fb()});
 </script>
-
-</html>
+</body></html>
