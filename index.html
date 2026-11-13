@@ -86,10 +86,9 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
 .tabs{position:sticky;top:0;z-index:5;display:flex;gap:6px;padding:8px 0;background:var(--bg)}
 .tabs a{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:11px 0;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--fg);text-decoration:none;font-weight:700}
 .tabs a[aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
-.tabs a:focus-visible,.gorules:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.tabs a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .tabs .must{font-size:11px;font-weight:700;padding:1px 6px;border-radius:6px;background:var(--warn);color:var(--accent-fg)}
 .tabs a[aria-selected="true"] .must{background:var(--surface);color:var(--warn)}
-.gorules{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 16px;border-radius:12px;border:1px solid var(--warn);color:var(--warn);text-decoration:none;font-weight:700;background:var(--surface)}
 .pnl{display:flex;flex-direction:column;gap:20px}
 .wrap[data-view="rules"] #p-odds{display:none}
 .wrap[data-view="odds"] #p-rules{display:none}
@@ -102,7 +101,7 @@ button:focus-visible,input:focus-visible{outline:2px solid var(--accent);outline
     
     <nav class="lnk" id="lk" aria-label="바로가기"><a href="https://discord.gg/qP7RgRrHwA" target="_blank" rel="noopener noreferrer"><i style="background:#5865f2"></i>디스코드</a><a href="https://chzzk.naver.com/042244791150a7e8fec85f933679bbe3" target="_blank" rel="noopener noreferrer"><i style="background:#00c473"></i>치지직</a><a href="https://www.youtube.com/@yonglin_e" target="_blank" rel="noopener noreferrer"><i style="background:#ff0000"></i>유튜브</a><a href="https://toon.at/donate/y1234" target="_blank" rel="noopener noreferrer"><i style="background:var(--accent)"></i>투네이션</a></nav>
     <div class="tabs" role="tablist"><a href="#odds" data-tab="odds" role="tab" aria-selected="true">룰렛 확률</a><a href="#rules" data-tab="rules" role="tab" aria-selected="false">시참 규칙<span class="must">필독</span></a></div>
-    <main><div class="pnl" id="p-odds"><a class="gorules" href="#rules" data-tab="rules"><span>⚠ 시참 전 반드시 읽어주세요!</span><span>시참 규칙 보기 →</span></a><section class="card">
+    <main><div class="pnl" id="p-odds"><section class="card">
       <div><h2>시참권 룰렛</h2><p class="sub" style="margin:4px 0 0">원하시는 모드로 시참 가능합니다.</p>
         <div class="price"><b>3,900</b> 원 <span>/ 1회</span></div></div>
       
@@ -126,7 +125,7 @@ if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.write
 (function(){var w=document.querySelector('.wrap');
 function set(t,push){w.dataset.view=t;[].forEach.call(document.querySelectorAll('.tabs [data-tab]'),function(a){a.setAttribute('aria-selected',String(a.dataset.tab===t))});if(push){try{history.replaceState(null,'','#'+t)}catch(e){}}}
 set(location.hash==='#rules'?'rules':'odds');
-document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.tabs [data-tab], .gorules');if(a){e.preventDefault();set(a.dataset.tab,1);scrollTo(0,0)}});
+document.addEventListener('click',function(e){var a=e.target.closest&&e.target.closest('.tabs [data-tab]');if(a){e.preventDefault();set(a.dataset.tab,1);scrollTo(0,0)}});
 addEventListener('hashchange',function(){set(location.hash==='#rules'?'rules':'odds')});})();
 </script>
 </body></html>
