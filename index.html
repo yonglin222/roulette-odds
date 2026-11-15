@@ -335,6 +335,10 @@ html.ctr-lock{overflow:hidden}
 .mt[data-cmp="1"] .mbrow{display:flex}
 .mt[data-cmp="1"]:not([data-fo="1"]) .mfil{display:none}
 .mt[data-cmp="1"][data-fo="1"] .mfil,.mt[data-stuck="1"][data-fo="1"] .mbar.mfixed .mfx{position:absolute;left:50%;right:auto;transform:translateX(-50%);width:min(680px,calc(100vw - 16px));top:calc(100% + 6px);max-height:calc(100vh - 90px);overflow:auto;z-index:31;border:1px solid var(--line);box-shadow:0 10px 30px rgba(30,20,60,.25);display:flex}
+.mt[data-bm="m"]:not([data-stuck="1"]) .mbar{width:auto;margin:0}
+.mt[data-bm="m"]:not([data-stuck="1"]) .mbrow{border-radius:12px;padding:3px 3px 3px 12px;background:var(--bg);box-shadow:none;cursor:pointer}
+.mt[data-bm="m"]:not([data-stuck="1"]) .mbs{display:block;font-size:13px}
+.mt[data-bm="m"]:not([data-stuck="1"]) .mbt{padding:6px 12px}
 .mt[data-stuck="1"] .mbar.mfixed{display:block}
 .mbar.mfixed .mbrow{display:flex}
 .mbar.mfixed .mfx{display:none}
@@ -761,7 +765,7 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
     }
   }, true);
   document.addEventListener('click', function(e){
-    var t = e.target.closest ? e.target.closest('.mbt') : null, m;
+    var t = e.target.closest ? e.target.closest('.mbrow') : null, m;
     if (t) { m = t.closest('.mt'); m.setAttribute('data-fo', m.getAttribute('data-fo') === '1' ? '0' : '1'); sync(m); return; }
     var b = e.target.closest ? e.target.closest('.mfil [data-mk]') : null;
     if (b) { m = b.closest('.mt'); setTimeout(function(){ m.setAttribute('data-fo', '0'); sync(m); stuck(m); }, 0); }
