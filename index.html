@@ -298,7 +298,8 @@ html.ctr-lock{overflow:hidden}
 .mgrp.md{gap:0;border-bottom:2px solid var(--line);flex-wrap:nowrap}
 .mgrp.md button{flex:1;min-width:0;padding:10px 0 9px;font-weight:700;font-size:15.5px;border:0;border-radius:0;background:transparent;color:var(--mute);border-bottom:3px solid transparent;margin-bottom:-2px}
 .mgrp.md button[aria-pressed="true"]{background:transparent;color:var(--accent);border-bottom-color:var(--accent)}
-.vstat .mh{background:var(--bg);border:0;border-radius:10px;padding:6px 12px;margin:0 -12px;font-size:12.5px;font-weight:700;position:sticky;top:56px;z-index:2}
+.mt[data-stuck="1"] .vstat .mh::before{content:"";position:absolute;left:0;right:0;top:-38px;height:38px;background:var(--bg)}
+.vstat .mh{background:var(--bg);border:0;border-radius:10px;padding:6px 12px;margin:0 -12px;font-size:12.5px;font-weight:700;position:sticky;top:calc(var(--mtop,54px) + 36px);z-index:2}
 .mh button{border:0;background:transparent;color:var(--mute);font-size:12.5px;font-weight:500;padding:5px 0;text-align:right;white-space:nowrap}
 .mh button::after{content:" ↕";font-size:10px;opacity:.6}
 .mh button[aria-pressed="true"]{color:var(--accent);font-weight:700}
@@ -335,6 +336,11 @@ html.ctr-lock{overflow:hidden}
 .trow.open .tmore{display:flex}
 .tbtn{border:1px dashed var(--line);background:transparent;color:var(--accent);border-radius:10px;padding:8px;font-weight:700;font-size:13px;cursor:pointer}
 @media(max-width:700px){
+.trow{grid-template-columns:36px 1fr;gap:8px}
+.tc:not(.tcm){display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.tc:not(.tcm) .cchip{min-width:0;padding:7px 9px 9px}
+.tc:not(.tcm) .cchip .cs{gap:6px;font-size:11.5px}
+.tc:not(.tcm) .tn{grid-column:1/-1}
 .tcm .tm{grid-template-columns:1fr;gap:6px}
 .tcm .tma{gap:4px}
 .tcm .tms{display:flex;align-items:baseline;gap:8px;text-align:left;white-space:normal}
