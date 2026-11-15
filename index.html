@@ -326,6 +326,11 @@ html.ctr-lock{overflow:hidden}
 .tcm .tma .tchip{font-size:12px;padding:2px 8px}
 .tcm .tms b{font-size:16px}
 .tma .hid{color:var(--warn);font-weight:700}
+.mbar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:8px;padding:8px 10px;margin:8px 0;background:var(--surface);border:1px solid var(--line);border-radius:12px;box-shadow:0 2px 10px rgba(30,20,60,.12)}
+.mbs{flex:1;min-width:0;font-size:13px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.mbt{flex:none;border:1px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:999px;padding:5px 12px;font-weight:700;font-size:13px;cursor:pointer}
+.mt:not([data-fo="1"]) .mfil{display:none}
+.mt[data-mode="src"] .mbar,.mt[data-mode="pro"] .mbar{display:none}
 .mfil{display:flex;flex-direction:column;gap:12px;background:var(--bg);border-radius:12px;padding:12px}
 .mt[data-mode="pro"] .mfil,.mt[data-mode="src"] .mfil{display:none}
 .mfil .mgrp{align-items:center}
@@ -383,7 +388,7 @@ details.mnote[open] summary{margin-bottom:4px}
     </section></div><div class="pnl" id="p-meta"><section class="card"><h2>발로란트 메타</h2><div id="mv" style="display:contents"><div class="mt" data-mode="comp" data-rank="all" data-role="all" data-sort="pr" data-map="all" data-src="comp" data-ag="all" data-tsort="t">
     
     <div class="mgrp md" aria-label="보기"><button type="button" data-mk="mode:comp" aria-pressed="true">티어표</button><button type="button" data-mk="mode:stat" aria-pressed="false">요원 통계</button><button type="button" data-mk="mode:team" aria-pressed="false">요원 조합</button></div>
-    <div class="mfil">
+    <div class="mbar"><span class="mbs">필터</span><button type="button" class="mbt" aria-expanded="false">필터 ▾</button></div><div class="mfil">
     <div class="mgrp rk" aria-label="랭크"><button type="button" data-mk="rank:all" aria-pressed="true">전체</button><button type="button" data-mk="rank:radiant" aria-pressed="false">레디언트</button><button type="button" data-mk="rank:immortal_plus" aria-pressed="false">불멸+</button><button type="button" data-mk="rank:immortal" aria-pressed="false">불멸</button><button type="button" data-mk="rank:ascendant_plus" aria-pressed="false">초월자+</button><button type="button" data-mk="rank:ascendant" aria-pressed="false">초월자</button><button type="button" data-mk="rank:diamond_plus" aria-pressed="false">다이아몬드+</button><button type="button" data-mk="rank:diamond" aria-pressed="false">다이아몬드</button><button type="button" data-mk="rank:platinum_plus" aria-pressed="false">플래티넘+</button><button type="button" data-mk="rank:platinum" aria-pressed="false">플래티넘</button><button type="button" data-mk="rank:gold_plus" aria-pressed="false">골드+</button><button type="button" data-mk="rank:gold" aria-pressed="false">골드</button><button type="button" data-mk="rank:silver" aria-pressed="false">실버</button><button type="button" data-mk="rank:bronze" aria-pressed="false">브론즈</button><button type="button" data-mk="rank:iron" aria-pressed="false">아이언</button><button type="button" data-mk="rank:unrank" aria-pressed="false">언랭크</button><details class="rkn"><summary aria-label="&quot;+&quot; 표시가 뭔가요?" title="&quot;+&quot; 표시가 뭔가요?">?</summary><span class="rkp">"+"는 그 티어부터 레디언트까지 합친 통계예요. 예: 불멸 = 불멸만, 불멸+ = 불멸 + 레디언트.</span></details></div>
     <div class="mgrp mmp" aria-label="맵"><button type="button" data-mk="map:all" aria-pressed="true">전체 맵</button><button type="button" data-mk="map:Abyss" aria-pressed="false">어비스</button><button type="button" data-mk="map:Bind" aria-pressed="false">바인드</button><button type="button" data-mk="map:Corrode" aria-pressed="false">코로드</button><button type="button" data-mk="map:Haven" aria-pressed="false">헤이븐</button><button type="button" data-mk="map:Lotus" aria-pressed="false">로터스</button><button type="button" data-mk="map:Summit" aria-pressed="false">서밋</button><button type="button" data-mk="map:Sunset" aria-pressed="false">선셋</button></div>
     <div class="mgrp mflt" aria-label="역할"><button type="button" data-mk="role:all" aria-pressed="true">전체</button><button type="button" data-mk="role:D" aria-pressed="false">타격대</button><button type="button" data-mk="role:I" aria-pressed="false">척후대</button><button type="button" data-mk="role:C" aria-pressed="false">전략가</button><button type="button" data-mk="role:S" aria-pressed="false">감시자</button></div>
@@ -638,4 +643,62 @@ document.addEventListener('click',function(e){var b=e.target.closest&&e.target.c
     else if ((e.key === 'Enter' || e.key === ' ') && e.target.matches && e.target.matches('[data-ctropen]')) { e.preventDefault(); o(); }
   });
 };ctrBind();</script>
+<script>(function(){
+  var tip = null, cur = null;
+  function el(){ if(!tip){ tip = document.createElement('div'); tip.className = 'mtip'; tip.setAttribute('role','tooltip'); document.body.appendChild(tip); } return tip; }
+  function show(t){
+    var tp = el(); tp.textContent = t.getAttribute('data-tip'); tp.classList.add('on'); cur = t;
+    var r = t.getBoundingClientRect(), w = tp.offsetWidth, h = tp.offsetHeight;
+    var x = Math.max(8, Math.min(innerWidth - w - 8, r.left + r.width / 2 - w / 2));
+    var y = r.top - h - 8; if (y < 8) y = r.bottom + 8;
+    tp.style.left = x + 'px'; tp.style.top = y + 'px';
+  }
+  function hide(){ if (tip) tip.classList.remove('on'); cur = null; }
+  function find(e){ return e.target && e.target.closest ? e.target.closest('.cchip[data-tip]') : null; }
+  function over(e){ var t = find(e); if (t && e.pointerType !== 'touch') show(t); }
+  function out(e){ var t = find(e); if (t && !(e.relatedTarget && t.contains(e.relatedTarget))) hide(); }
+  document.addEventListener('mouseover', over);
+  document.addEventListener('mouseout', out);
+  document.addEventListener('focusin', function(e){ var t = find(e); if (t) show(t); });
+  document.addEventListener('focusout', hide);
+  document.addEventListener('click', function(e){ var t = find(e); if (t) { cur === t ? hide() : show(t); } else hide(); });
+  addEventListener('scroll', hide, true);
+
+  // 필터 요약 바 (스크롤해도 위에 붙음, 눌러서 펼침)
+  function summary(m){
+    var was = m.getAttribute('data-fo'); m.setAttribute('data-fo', '1');
+    var out = [];
+    [].forEach.call(m.querySelectorAll('.mfil .mgrp'), function(g){
+      if (g.offsetParent === null) return;
+      var b = g.querySelector('button[aria-pressed="true"]'); if (!b) return;
+      var l = g.getAttribute('aria-label') || '', tx = b.textContent.trim(); out.push(tx.indexOf(l) > -1 ? tx : l + ' ' + tx);
+    });
+    if (was === null) m.removeAttribute('data-fo'); else m.setAttribute('data-fo', was);
+    return out.join(' · ') || '필터';
+  }
+  function sync(m){
+    var bar = m.querySelector(':scope > .mbar');
+    if (!bar) {
+      var f = m.querySelector('.mfil'); if (!f) return;
+      bar = document.createElement('div'); bar.className = 'mbar';
+      bar.innerHTML = '<span class="mbs"></span><button type="button" class="mbt" aria-expanded="false">필터 ▾</button>';
+      m.insertBefore(bar, f);
+    }
+    var s = summary(m), sp = bar.querySelector('.mbs'), open = m.getAttribute('data-fo') === '1';
+    if (sp.textContent !== s) sp.textContent = s;
+    var bt = bar.querySelector('.mbt'), lb = open ? '닫기 ▴' : '필터 ▾';
+    if (bt.textContent !== lb) { bt.textContent = lb; bt.setAttribute('aria-expanded', String(open)); }
+  }
+  function all(){ [].forEach.call(document.querySelectorAll('.mt'), sync); }
+  document.addEventListener('click', function(e){
+    var t = e.target.closest ? e.target.closest('.mbt') : null, m;
+    if (t) { m = t.closest('.mt'); m.setAttribute('data-fo', m.getAttribute('data-fo') === '1' ? '0' : '1'); sync(m); return; }
+    var b = e.target.closest ? e.target.closest('.mfil [data-mk]') : null;
+    if (b) { m = b.closest('.mt'); setTimeout(function(){ m.setAttribute('data-fo', '0'); sync(m); }, 0); }
+  });
+  var busy = false;
+  new MutationObserver(function(){ if (busy) return; busy = true; setTimeout(function(){ busy = false; all(); }, 30); }).observe(document.body, {childList: true, subtree: true});
+  all();
+})();
+</script>
 </body></html>
