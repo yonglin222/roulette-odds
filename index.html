@@ -331,7 +331,7 @@ html.ctr-lock{overflow:hidden}
 .mbrow{display:none;align-items:center;gap:6px;padding:3px;background:var(--surface);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 10px rgba(30,20,60,.12)}
 .mbs{display:none;flex:1;min-width:0;font-size:12px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .mbt{flex:none;border:1px solid var(--accent);background:var(--surface);color:var(--accent);border-radius:999px;padding:3px 10px;font-weight:700;font-size:12px;cursor:pointer}
-.msent{height:0}
+.msent{position:absolute;height:0;width:0;pointer-events:none}
 .mt[data-cmp="1"] .mbrow{display:flex}
 .mt[data-cmp="1"]:not([data-fo="1"]) .mfil{display:none}
 .mt[data-cmp="1"][data-fo="1"] .mfil,.mt[data-stuck="1"][data-fo="1"] .mbar.mfixed .mfx{position:absolute;left:50%;right:auto;transform:translateX(-50%);width:min(680px,calc(100vw - 16px));top:calc(100% + 6px);max-height:calc(100vh - 90px);overflow:auto;z-index:31;border:1px solid var(--line);box-shadow:0 10px 30px rgba(30,20,60,.25);display:flex}
