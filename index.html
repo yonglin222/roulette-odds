@@ -255,6 +255,7 @@ html.ctr-lock{overflow:hidden}
 .tms b{display:block;font-size:17px;font-variant-numeric:tabular-nums}
 .tms b.hi{color:var(--accent)}.tms b.lo{color:var(--miss)}
 .tms small{font-size:11.5px;color:var(--mute);font-variant-numeric:tabular-nums}
+.mt.mt-empty .mnote{display:none}
 .tcm{flex-direction:column;align-items:stretch;gap:6px;flex-wrap:nowrap}
 .tcm .tm{grid-template-columns:1fr auto}
 .tcm .tmr{display:none}
@@ -409,7 +410,8 @@ function metaSync(m){
     (M.ranks.all || []).forEach(r => rl[r[0]] = r[1]);
     tb.innerHTML = tmRows(T, d, ag, rl, m.dataset.tsort || 't');
   }
-  if (!box) return;
+  const fin = () => { const q = (el) => !!(el && el.querySelector('p.ri')), e = {comp: q(cb), team: q(tb), stat: q(box)}; m.classList.toggle('mt-empty', !!e[m.dataset.mode]); };
+  if (!box) { fin(); return; }
   const rk = m.dataset.rank, mp = m.dataset.map, src = m.dataset.src || 'comp', C = M.cmp || {}, A = M.alt || {};
   const RK = {all:'전체',radiant:'레디언트',immortal_plus:'불멸+',immortal:'불멸',ascendant_plus:'초월자+',ascendant:'초월자',diamond_plus:'다이아몬드+',diamond:'다이아몬드',platinum_plus:'플래티넘+',platinum:'플래티넘',gold_plus:'골드+',gold:'골드',silver:'실버',bronze:'브론즈',iron:'아이언',unrank:'언랭크'};
   const NAMES = {opgg:'OP.GG', valking:'ValKing', blitz:'Blitz', tracker:'tracker.gg', dak:'DAK.GG', metabot:'Metabot', comp:'종합'};
@@ -429,6 +431,7 @@ function metaSync(m){
       return [n, role[n] || '', v[0], v[1], e]; }); }
   if (rows && rows.length) box.innerHTML = metaRows(rows) + (NOTE[src] && !(M.hide || {}).calc ? `<details class="mnote" style="order:99999"><summary>이 숫자는 어떻게 나온 건가요?</summary>${esc(NOTE[src])}</details>` : '');
   else box.innerHTML = `<p class="ri">${esc(NAMES[src])}에는 ${esc(RK[rk] || rk)} × ${mp === 'all' ? '전체 맵' : esc(mp)} 데이터가 없어요. ${esc(NAMES[src])}가 가진 범위: ${esc(COVER[src] || '')}. 다른 출처를 고르거나 "종합"으로 보세요.</p>`;
+  fin();
 }
 document.addEventListener('click',function(e){var b=e.target.closest&&e.target.closest('.mt [data-mk]');if(!b)return;var m=b.closest('.mt'),p=b.dataset.mk.split(':');m.dataset[p[0]]=p[1];metaSync(m);[].forEach.call(m.querySelectorAll('[data-mk^="'+p[0]+':"]'),function(x){x.setAttribute('aria-pressed',String(x===b))})});
 })();
